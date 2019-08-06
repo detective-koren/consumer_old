@@ -17,12 +17,21 @@ def dist2accuracy(dist):
 
 
 
-if __name__=='__main__':
+def face_recog(target_face_path, input_face_path):
     
-    args = parser.parse_args()
+    '''
+    INPUT
+       - target_face_path (string) : full path to the target face
+       - input_face_path (string)  : full path to the input face
     
-    target_face = face_recognition.load_image_file(args.target_face)
-    input_face = face_recognition.load_image_file(args.input_face)
+    OUPUT
+       - accuracy : the match rate between the target face and the input face.
+                    the value is 1, when the target and the input is exactly match
+                    the value is 0, when the target and the input is completely do NOT match
+    '''
+    
+    target_face = face_recognition.load_image_file(target_face_path)
+    input_face = face_recognition.load_image_file(input_face_path)
     
     target_encoding = face_recognition.face_encodings(target_face)
     input_encoding = face_recognition.face_encodings(input_face)
@@ -31,6 +40,15 @@ if __name__=='__main__':
     
     accuracy = dist2accuracy(face_distances[0])
     
-    print("target image {0} and input image {1} are {2:.2f}% match".format(args.target_face,
-                                                                            args.input_face,
+    print("target image {0} and input image {1} are {2:.2f}% match".format(target_face_path,
+                                                                            input_face_path,
                                                                             accuracy*100))
+    
+    return accuracy
+    
+    
+if __name__=='__main__':
+    
+    args = parser.parse_args()
+    
+    face_recog(args.target_face, args.input_face)
