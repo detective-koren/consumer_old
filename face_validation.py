@@ -1,7 +1,6 @@
 from PIL import Image
 import numpy as np
 import face_recognition
-
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -35,10 +34,10 @@ def face_recog(target_face_path, input_face_path):
     
     target_encoding = face_recognition.face_encodings(target_face)
     input_encoding = face_recognition.face_encodings(input_face)
+
+    face_distances = face_recognition.face_distance(target_encoding[0], input_encoding)
     
-    face_distances = face_recognition.face_distance([target_encoding], input_encoding[0])
-    
-    accuracy = dist2accuracy(face_distances[0])
+    accuracy = dist2accuracy(face_distances)
     
     print("target image {0} and input image {1} are {2:.2f}% match".format(target_face_path,
                                                                             input_face_path,
